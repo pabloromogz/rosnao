@@ -1,5 +1,5 @@
 
-NAO_IP=192.168.10.24
+NAO_IP=192.168.231.156
 SHM_ID=motion
 
 SCRIPT_DIR=$(dirname `echo $(realpath "$0")`)

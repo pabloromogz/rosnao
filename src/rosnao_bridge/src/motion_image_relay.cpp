@@ -4,13 +4,14 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include "rosnao_bridge/image_subscriber.hpp"
+#include "rosnao_bridge/motion.hpp"
 
 rosnao::ImageSubscriber<rosnao::kQVGA> *sub_qvga = nullptr;
 rosnao::ImageSubscriber<rosnao::kVGA> *sub_vga = nullptr;
 
-int main(int argc, char **argv)
-{
-    ros::init(argc, argv, "rosnao_image_relay");
+int main(int argc, char **argv){
+
+    ros::init(argc, argv, "rosnao_motion_image_relay");
     ros::NodeHandle nh;
 
     if (argc != 5)
@@ -41,24 +42,13 @@ int main(int argc, char **argv)
     image_transport::ImageTransport it(nh);
     image_transport::Publisher pub = it.advertise(topic, 1);
 
+    rosnao::Motion motion(shm_id); // stiffens the robot's joints and makes the robot assume a walking posture
+
+    motion.setAngle(rosnao::HeadYaw, 1.57, 0.05, false); // rotate head to 90deg left (non blocking)
+    motion.setAngle(rosnao::HeadYaw, -1.57, 0.1, false); // rotate head to 90deg right, faster (non blocking, doesn't care if the head reached 90deg left)
+
     while (ros::ok())
     {
-        /* 
-        std::pair<cv::Mat, bool> p;
-        if (res == rosnao::kVGA)
-            p = sub_vga->getCvMat();
-        else if (res == rosnao::kQVGA)
-            p = sub_qvga->getCvMat(); 
-        
-        if (p.second == false)
-            continue; // don't publish anything if nothing is received
-
-        cv::imshow("test", p.first);
-        cv::waitKey(3);
-
-        sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "mono8", p.first).toImageMsg();
-        pub.publish(msg);
-        */
         std::pair<sensor_msgs::ImageConstPtr, bool> p;
         if (res == rosnao::kVGA)
             p = sub_vga->getImageMsg();
@@ -72,6 +62,8 @@ int main(int argc, char **argv)
 
         ros::spinOnce();
     }
+
+    motion.rest(); // tells the robot to rest to prevent robot overheating
 
     if (res == rosnao::kVGA)
         delete sub_vga;

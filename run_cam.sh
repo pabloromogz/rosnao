@@ -1,9 +1,9 @@
 
-NAO_IP=192.168.10.24
+NAO_IP=192.168.231.156
 SHM_ID=img
 RES=1 #1 for QVGA, 2 for VGA
 CAM=0 #0 for bottom, 1 for top
-TOPIC="cam"
+TOPIC="cam0/raw_image"
 FRAME="world"
 
 SCRIPT_DIR=$(dirname `echo $(realpath "$0")`)

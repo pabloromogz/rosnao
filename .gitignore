@@ -5,3 +5,6 @@ src/rosnao_wrapper/qiproject.xml
 build/
 devel/
 src/CMakeLists.txt
+.vscode
+src/.vscode
+src/orb_slam3_ros_wrapper/config/ORBvoc.txt

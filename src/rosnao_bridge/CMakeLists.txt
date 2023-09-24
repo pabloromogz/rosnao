@@ -53,6 +53,14 @@ add_executable(teleop src/teleop.cpp)
 target_include_directories(teleop PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
 target_link_libraries(teleop ${ROSNAO_BRIDGE_LIBRARIES})
 
+add_executable(motion_image_relay src/motion_image_relay.cpp)
+target_include_directories(motion_image_relay PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(motion_image_relay ${ROSNAO_BRIDGE_LIBRARIES})
+
+add_executable(teleop_image_relay src/teleop_image_relay.cpp)
+target_include_directories(teleop_image_relay PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(teleop_image_relay ${ROSNAO_BRIDGE_LIBRARIES})
+
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.hpp"
