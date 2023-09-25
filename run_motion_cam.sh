@@ -4,7 +4,7 @@ SHM_ID=img
 SHM_ID2=motion
 RES=1 #1 for QVGA, 2 for VGA
 CAM=0 #0 for bottom, 1 for top
-TOPIC="cam0/image_raw"
+TOPIC="cam0/raw_image"
 FRAME="world"
 
 SCRIPT_DIR=$(dirname `echo $(realpath "$0")`)
