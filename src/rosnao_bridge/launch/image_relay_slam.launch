@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="nao_ip" default="127.0.0.1"/>
+    <arg name="shm_id" default="img"/>
+    <arg name="res" default="1" /> <!--1 for QVGA, 2 for VGA-->
+    <arg name="cam" default="0" /> <!--0 for bottom, 1 for top-->
+    <arg name="topic" default="cam" />
+    <arg name="frame" default="world" />
+
+    <!-- Launch node on ros end to publish image from shared memory -in shared memory -->
+    <node pkg="rosnao_bridge" type="image_relay" name="image_relay" output="screen" args="$(arg shm_id) $(arg res) $(arg topic) $(arg frame)" required="true"/>
+    <!-- Interface with sdk, launches proxy in nao, and put the image in shared memory -->
+    <node pkg="rosnao_bridge" type="image_relay.sh" name="image_relay_sdk" output="screen" args="$(arg nao_ip) $(arg shm_id) $(arg res) $(arg cam)" required="true"/>
+
+    <node name="orb_slam3_mono" pkg="orb_slam3_ros_wrapper" type="orb_slam3_ros_wrapper_mono" output="screen">
+        <!-- for EuRoC dataset -->
+        <remap from="/camera/image_raw" to="/cam0/image_raw"/>
+
+        <!-- Parameters for original ORB-SLAM3 -->
+        <param name="voc_file"      type="string"   value="$(find orb_slam3_ros_wrapper)/config/ORBvoc.txt" />
+        <param name="settings_file" type="string"   value="$(find orb_slam3_ros_wrapper)/config/EuRoC.yaml" />
+
+        <!-- Parameters for ROS -->
+        <param name="world_frame_id"    type="string"   value="world" />
+        <param name="cam_frame_id"      type="string"   value="camera" />
+        <param name="enable_pangolin"   type="bool"     value="true" />
+        
+        <!-- World frame orientation -->
+        <param name="world_roll"        type="double"   value="1.57079632679" />
+        <param name="world_pitch"       type="double"   value="0.0" />
+        <param name="world_yaw"         type="double"   value="1.57079632679" />
+    </node>
+
+    <!-- Visualization - RViz-->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find orb_slam3_ros_wrapper)/config/orb_slam3_no_imu.rviz" output="screen" />
+
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server_orb_slam3" output="screen" ns="orb_slam3_ros" >
+        <param name="/target_frame_name" value="/world" />
+        <param name="/source_frame_name" value="/camera" />
+        <param name="/trajectory_update_rate" value="20.0" />
+        <param name="/trajectory_publish_rate" value="20.0" />
+    </node>
+
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find rosnao_bridge)/rviz/cam.rviz"/-->
+</launch>
