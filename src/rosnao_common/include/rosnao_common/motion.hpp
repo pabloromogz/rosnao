@@ -13,12 +13,15 @@ namespace rosnao
     {
         Null,
         HeadYaw,
+        HeadPitch
     };
 
     std::string to_string(const Joint &joint)
     {
         if (joint == Joint::HeadYaw)
             return "HeadYaw";
+        else if (joint == Joint::HeadPitch)
+            return "HeadPitch";
         else
             return "";
     }
