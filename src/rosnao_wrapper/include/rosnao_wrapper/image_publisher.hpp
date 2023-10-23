@@ -58,7 +58,8 @@ namespace rosnao
             for (int i = 0; i < 6; ++i) // max 6 variations of the same name are allowed by the sdk. Unsubscribe all
                 proxy.unsubscribe(shm_id + "_" + std::to_string(i));
 
-            sub_id = proxy.subscribeCamera(shm_id, cam, AL::kQVGA, AL::kYuvColorSpace, fps);
+            //sub_id = proxy.subscribeCamera(shm_id, cam, AL::kQVGA, AL::kYuvColorSpace, fps);
+            sub_id = proxy.subscribeCamera(shm_id, cam, res, AL::kYuvColorSpace, fps);
             try
             {
                 boost::interprocess::shared_memory_object::remove(shm_id.c_str());

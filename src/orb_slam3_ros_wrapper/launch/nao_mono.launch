@@ -1,5 +1,6 @@
 <launch>
     <node name="orb_slam3_mono" pkg="orb_slam3_ros_wrapper" type="orb_slam3_ros_wrapper_mono" output="screen">
+        <remap from="/camera/image_raw" to="/cam0/image_raw"/>
 
         <!-- Parameters for original ORB-SLAM3 -->
         <param name="voc_file"      type="string"   value="$(find orb_slam3_ros_wrapper)/config/ORBvoc.txt" />
@@ -11,9 +12,9 @@
         <param name="enable_pangolin"   type="bool"     value="true" />
         
         <!-- World frame orientation -->
-        <param name="world_roll"        type="double"   value="1.57079632679" />
-        <param name="world_pitch"       type="double"   value="0.0" />
-        <param name="world_yaw"         type="double"   value="1.57079632679" />
+        <param name="world_roll"        type="double"   value="0.0" />
+        <param name="world_pitch"       type="double"   value="-0.174533" />
+        <param name="world_yaw"         type="double"   value="0.0" />
     </node>
 
     <!-- Visualization - RViz-->
