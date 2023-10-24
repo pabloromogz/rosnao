@@ -9,6 +9,7 @@
 #define ROSNAO_COMMON_IMAGE_HPP
 namespace rosnao
 {
+    const int k4VGA = 3;
     const int kVGA = 2;
     const int kQVGA = 1;
     const int kTopCamera = 0;
@@ -44,6 +45,15 @@ namespace rosnao
         {
             const static int width = 640;
             const static int height = 480;
+            const static int channels = 1;
+            uint8_t data[width * height * channels];
+        };
+
+        template <>
+        struct SHMImage<k4VGA> : AbstractSHMImage
+        {
+            const static int width = 1280;
+            const static int height = 960;
             const static int channels = 1;
             uint8_t data[width * height * channels];
         };

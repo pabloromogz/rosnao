@@ -7,6 +7,7 @@
 
 rosnao::ImageSubscriber<rosnao::kQVGA> *sub_qvga = nullptr;
 rosnao::ImageSubscriber<rosnao::kVGA> *sub_vga = nullptr;
+rosnao::ImageSubscriber<rosnao::k4VGA> *sub_4vga = nullptr;
 
 int main(int argc, char **argv)
 {
@@ -35,6 +36,8 @@ int main(int argc, char **argv)
         sub_vga = new rosnao::ImageSubscriber<rosnao::kVGA>(shm_id, frame_id);
     else if (res == rosnao::kQVGA)
         sub_qvga = new rosnao::ImageSubscriber<rosnao::kQVGA>(shm_id, frame_id);
+    else if (res == rosnao::k4VGA)
+        sub_4vga = new rosnao::ImageSubscriber<rosnao::k4VGA>(shm_id, frame_id);
     else
         assert(false); // res must be 1 (QVGA) or 2 (VGA)
 
@@ -63,7 +66,9 @@ int main(int argc, char **argv)
         if (res == rosnao::kVGA)
             p = sub_vga->getImageMsg();
         else if (res == rosnao::kQVGA)
-            p = sub_qvga->getImageMsg();     
+            p = sub_qvga->getImageMsg();
+        else if (res == rosnao::k4VGA)
+            p = sub_4vga->getImageMsg();  
 
         if (p.second == false)
             continue; // don't publish anything if nothing is received
@@ -77,6 +82,8 @@ int main(int argc, char **argv)
         delete sub_vga;
     else if (res == rosnao::kQVGA)
         delete sub_qvga;
+    else if (res == rosnao::k4VGA)
+        delete sub_4vga;
 
     ros::spin();
     return 0;

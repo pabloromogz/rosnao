@@ -2,6 +2,7 @@
 
 rosnao::ImagePublisher<rosnao::kVGA> *pub_vga = nullptr;
 rosnao::ImagePublisher<rosnao::kQVGA> *pub_qvga = nullptr;
+rosnao::ImagePublisher<rosnao::k4VGA> *pub_4vga = nullptr;
 
 _def_interrupt;
 
@@ -32,6 +33,8 @@ int main(int argc, char **argv)
         pub_vga = new rosnao::ImagePublisher<rosnao::kVGA>(nao_ip, shm_id, 30, cam);
     else if (res == rosnao::kQVGA)
         pub_qvga = new rosnao::ImagePublisher<rosnao::kQVGA>(nao_ip, shm_id, 30, cam);
+    else if (res == rosnao::k4VGA)
+        pub_4vga = new rosnao::ImagePublisher<rosnao::k4VGA>(nao_ip, shm_id, 30, cam);
     else
         assert(false);
 
@@ -41,12 +44,16 @@ int main(int argc, char **argv)
             pub_vga->pub();
         else if (res == rosnao::kQVGA)
             pub_qvga->pub();
+        else if (res == rosnao::k4VGA)
+            pub_4vga->pub();
     }
     
     if (res == rosnao::kVGA)
         delete pub_vga;
     else if (res == rosnao::kQVGA)
         delete pub_qvga;
+    else if (res == rosnao::k4VGA)
+        delete pub_4vga;
 
     _uninstall_interrupt;
     return 0;

@@ -50,8 +50,8 @@ namespace rosnao
         ImagePublisher(const std::string &ip, const std::string &shm_id, const int &fps, const int &cam)
             : proxy(ip), sub_id(shm_id), shm_id(shm_id), fps(fps), cam(cam)
         {
-            static_assert(rosnao::kQVGA == AL::kQVGA && rosnao::kVGA == AL::kVGA);
-            static_assert(res == rosnao::kQVGA || res == rosnao::kVGA);
+            static_assert(rosnao::kQVGA == AL::kQVGA && rosnao::kVGA == AL::kVGA && rosnao::k4VGA == AL::k4VGA);
+            static_assert(res == rosnao::kQVGA || res == rosnao::kVGA || res == rosnao::k4VGA);
 
             // Does not unsubscribe other streams with a different name
             std::cout << "Unsubscribing other proxy camera streams with same name" << std::endl;
