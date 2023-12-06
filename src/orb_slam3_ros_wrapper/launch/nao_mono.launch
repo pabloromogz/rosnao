@@ -21,8 +21,10 @@
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
         <remap from="cloud_in" to="orb_slam3/map_points"/>
         <param name="frame_id" type="string" value="world"/>
-        <param name="pointcloud_min_z" value="0"/>
-        <param name="pointcloud_max_z" value="100"/>
+        <param name="pointcloud_min_z" value="-1"/>
+        <param name="pointcloud_max_z" value="5"/>
+        <param name="sensor_model/max_range" value="3"/>
+        <param name="resolution" value="0.02"/>
     </node>
 
     <!-- Visualization - RViz-->
