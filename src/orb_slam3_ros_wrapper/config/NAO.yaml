@@ -15,6 +15,16 @@ Camera1.k2: -0.2492
 Camera1.p1: 0.0025
 Camera1.p2: 0.0051
 
+Camera2.fx: 305.5
+Camera2.fy: 307.2
+Camera2.cx: 160.1
+Camera2.cy: 119.26
+
+Camera2.k1: 0.1021
+Camera2.k2: -0.2492
+Camera2.p1: 0.0025
+Camera2.p2: 0.0051
+
 Camera.width: 320
 Camera.height: 240
 
@@ -26,6 +36,17 @@ Camera.fps: 22
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
+
+# Close/Far threshold. Baseline times.
+Stereo.ThDepth: 60.0
+Stereo.T_c1_c2: !!opencv-matrix
+  rows: 4
+  cols: 4
+  dt: f
+  data: [1.0,0,0,0,
+         0,0.769399555046892,0.63876781751560,0.0459,
+         0,-0.63876781751560,0.769399555046892,-0.008,
+         0,0,0,1.000000000000000]
 
 #--------------------------------------------------------------------------------------------
 # ORB Parameters

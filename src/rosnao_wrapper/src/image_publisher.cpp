@@ -6,10 +6,8 @@ rosnao::ImagePublisher<rosnao::k4VGA> *pub_4vga = nullptr;
 
 _def_interrupt;
 
-int main(int argc, char **argv)
-{
-    if (argc != 5)
-    {
+int main(int argc, char **argv){
+    if (argc != 5){
         std::cerr << "Wrong arguments for IMAGE_PUB. Usage: nao_ip, shm_id, res {1=QVGA, 2=VGA, 3=4VGA}, cam {0=top,1=bottom}" << std::endl;
         // The same shm_id for the same cam cannot be reused. It will cause other publishers to stop working.
         //
@@ -38,8 +36,7 @@ int main(int argc, char **argv)
     else
         assert(false);
 
-    while (_no_interrupt)
-    {
+    while (_no_interrupt){
         if (res == rosnao::kVGA)
             pub_vga->pub();
         else if (res == rosnao::kQVGA)
