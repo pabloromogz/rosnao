@@ -45,6 +45,10 @@ add_executable(image_relay src/image_relay.cpp)
 target_include_directories(image_relay PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
 target_link_libraries(image_relay ${ROSNAO_BRIDGE_LIBRARIES})
 
+add_executable(imu_relay src/imu_relay.cpp)
+target_include_directories(imu_relay PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(imu_relay ${ROSNAO_BRIDGE_LIBRARIES})
+
 add_executable(image_relay_stereo src/image_relay_stereo.cpp)
 target_include_directories(image_relay_stereo PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
 target_link_libraries(image_relay_stereo ${ROSNAO_BRIDGE_LIBRARIES})
