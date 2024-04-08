@@ -7,7 +7,7 @@ _def_interrupt;
 int main(int argc, char** argv){
     _init_interrupt;
 
-    AL::ALMemoryProxy proxy("192.168.90.156");
+    AL::ALMemoryProxy proxy("192.168.26.156");
     // AL::ALMotionProxy proxy2("192.168.90.156");
     // AL::ALSensorsProxy proxy("192.168.90.156");
     std::vector<std::string> key_list = {"Device/SubDeviceList/InertialSensor/GyroscopeX/Sensor/Value",
@@ -20,13 +20,13 @@ int main(int argc, char** argv){
                                             "Device/SubDeviceList/InertialSensor/AngleY/Sensor/Value",
                                             "Device/SubDeviceList/InertialSensor/AngleZ/Sensor/Value"};
 
-    // proxy.subscribe("Device/SubDeviceList/InertialSensor/GyroscopeX/Sensor/Value");
+    // // proxy.subscribe("Device/SubDeviceList/InertialSensor/GyroscopeX/Sensor/Value");
     double prev=0;
     int count=0;
     // while(_no_interrupt){
     // double mean_velx=0, mean_vely=0, mean_velz=0, mean_accx=0, mean_accy=0, mean_accz=0;
     std::vector<double> velsx, velsy, velsz, accsx, accsy, accsz;
-    while (count<1000){ 
+    while (count<1000 && _no_interrupt){ 
         AL::ALValue angles_arr = proxy.getListData(key_list);
         double velx = angles_arr[0], vely=angles_arr[1], velz=angles_arr[2];
         double accx = angles_arr[3], accy=angles_arr[4], accz=angles_arr[5];
@@ -74,6 +74,11 @@ int main(int argc, char** argv){
 
     std::cout << "ANG VEL VARIANCES: X: " << var_velx << "\tY: " << var_vely << "\tZ: " << var_velz << std::endl;
     std::cout << "LIN ACC VARIANCES: X: " << var_accx << "\tY: " << var_accy << "\tZ: " << var_accz << std::endl;
-    // _uninstall_interrupt;
+
+    // while (_no_interrupt){
+    //     AL::ALValue val = proxy.getTimestamp("Device/SubDeviceList/InertialSensor/GyroscopeX/Sensor/Value");
+    //     std::cout << "Value: " << val[0] << "\tTimestamp1: " << val[1] << "\tTimestamp2: " << val[2] << std::endl;
+    // }
+    _uninstall_interrupt;
     return 0;
 }

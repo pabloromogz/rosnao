@@ -1,5 +1,4 @@
-
-NAO_IP=192.168.23.156
+NAO_IP=192.168.26.156
 SHM_ID=img
 RES=1 #1 for QVGA, 2 for VGA
 CAM=0 #0 for bottom, 1 for top

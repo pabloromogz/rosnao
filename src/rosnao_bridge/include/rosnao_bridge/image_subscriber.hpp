@@ -69,7 +69,7 @@ namespace rosnao
         }
 
         ~ImageSubscriber()
-        { // boost::interprocess::shared_memory_object::remove(shm_id.c_str());
+        { boost::interprocess::shared_memory_object::remove(shm_id.c_str());
         }
 
         // returns the image as a cv::Mat.
@@ -99,8 +99,9 @@ namespace rosnao
 
             auto &header = msg->header;
             header.seq = seq = shm_img->seq;
-            header.stamp.sec = shm_img->sec;
-            header.stamp.nsec = shm_img->usec * 1000;
+            // header.stamp.sec = shm_img->sec;
+            // header.stamp.nsec = shm_img->usec * 1000;
+            header.stamp = ros::Time::now();
 
             const size_t size = _img_t::height * _img_t::width * _img_t::channels;
             auto &shm_data = shm_img->data;

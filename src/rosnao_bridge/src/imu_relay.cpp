@@ -29,7 +29,7 @@ int main(int argc, char** argv){
 
     ros::Publisher imu_pub = nh.advertise<sensor_msgs::Imu>(topic, 1);
 
-    ros::Rate loop_rate(20);
+    ros::Rate loop_rate(3);
 
     while (ros::ok()){
         loop_rate.sleep();

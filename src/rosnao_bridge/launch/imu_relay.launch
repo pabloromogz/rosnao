@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="nao_ip" default="192.168.90.156"/>
+    <arg name="nao_ip" default="192.168.26.156"/>
     <arg name="shm_id" default="imu"/>
     <arg name="topic" default="imu0" />
     <!-- <arg name="frame" default="imu_link" /> -->

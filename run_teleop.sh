@@ -1,4 +1,4 @@
-NAO_IP=192.168.90.156
+NAO_IP=192.168.26.156
 SHM_ID=teleop
 
 SCRIPT_DIR=$(dirname `echo $(realpath "$0")`)

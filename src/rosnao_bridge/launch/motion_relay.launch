@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="nao_ip" default="127.0.0.1"/>
+    <arg name="nao_ip" default="192.168.26.156"/>
     <arg name="shm_id" default="motion"/>
     
     <node pkg="rosnao_bridge" type="test_motion" name="test_motion" output="screen" args="$(arg shm_id)" required="true"/>

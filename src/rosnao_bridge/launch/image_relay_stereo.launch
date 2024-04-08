@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="nao_ip" default="127.0.0.1"/>
+    <arg name="nao_ip" default="192.168.26.156"/>
     <arg name="shm_id1" default="img1"/>
     <arg name="shm_id2" default="img2"/>
     <arg name="res" default="1" /> <!--1 for QVGA, 2 for VGA-->
