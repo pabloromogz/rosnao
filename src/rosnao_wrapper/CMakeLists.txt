@@ -19,6 +19,10 @@ qi_create_bin(imu_proxy "src/imu_publisher.cpp"
     DEPENDS ALCOMMON ALPROXIES BOOST)
 qi_create_bin(imu_print_proxy "src/imu_print.cpp" 
     DEPENDS ALCOMMON ALPROXIES BOOST)
+qi_create_bin(position_print_proxy "src/position_print.cpp" 
+    DEPENDS ALCOMMON ALPROXIES BOOST)
+qi_create_bin(pose_integrator_proxy "src/pose_integrator.cpp" 
+    DEPENDS ALCOMMON ALPROXIES BOOST)
 
 # set(sdk $ENV{HOME}/naoqi_sdk_cpp)
 # set(sdk_cmake ${sdk}/share/cmake)

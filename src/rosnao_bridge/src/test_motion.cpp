@@ -25,19 +25,22 @@ int main(int argc, char **argv)
     // motion.wakeUp(); // called in ctor of rosnao::Motion.
     // motion.moveInit(); // called in ctor of rosnao::Motion. call again if need to reset walking posture.
 
-    motion.moveTo(0.3, 0.0, 1.57);                      // go forward 30cm and turn 90deg left (blocking call)
-    motion.setAngle(rosnao::HeadYaw, 1.57, 0.05, true); // rotate head to 90deg left  (blocking call)
-    motion.setAngle(rosnao::HeadYaw, -1.57, 0.1, true); // rotate head to 90deg right, faster (blocking call)
+    // MOVE AND MOVETOWARD ARE NON-BLOCKING -> IMPLEMENT BLOCKING?
+
+    // motion.moveTo(3.0, 0.0, 0.0);                      // go forward 30cm and turn 90deg left (blocking call)
+    // motion.setAngle(rosnao::HeadYaw, 1.57, 0.05, true); // rotate head to 90deg left  (blocking call)
+    // motion.setAngle(rosnao::HeadYaw, -1.57, 0.1, true); // rotate head to 90deg right, faster (blocking call)
     // motion.moveTo(0.0, 0.3, -1.57);                     // go left 30cm, and turn 90deg right (go to origin) (blocking call)
     // motion.setAngle(rosnao::HeadYaw, 1.57, 0.05, false); // rotate head to 90deg left (non blocking)
     // motion.moveTo(0.3, 0.0, 1.57);                       // go forward 30cm and turn 90deg left (head turns while moving, block until robot walked to position)
     // motion.setAngle(rosnao::HeadYaw, -1.57, 0.1, false); // rotate head to 90deg right, faster (non blocking, doesn't care if the head reached 90deg left)
     // motion.moveTo(0.0, 0.3, -1.57);                      // go left 30cm, and turn 90deg right (go to origin) (head turns while moving, block until robot walked to position)
-    motion.setAngle(rosnao::HeadPitch, -0.6, 0.1, true);
-    motion.setAngle(rosnao::HeadPitch, 0.5, 0.1, true);
-    motion.setAngle(rosnao::HeadPitch, -0.6, 0.05, true);
-    // motion.move(0,0,0); // move in m/s: x, y, yaw.
-    // motion.moveToward(0,0,0); // move in normalised velocities (0 to 1): x, y, yaw
+    // motion.setAngle(rosnao::HeadPitch, -0.6, 0.1, true);
+    // motion.setAngle(rosnao::HeadPitch, 0.5, 0.1, true);
+    // motion.setAngle(rosnao::HeadPitch, -0.6, 0.05, true);
+    motion.move(0.0, 0.0, M_PI/10); // move in m/s: x, y, yaw. Expressed in robot frame
+    while (true){}
+    // motion.moveToward(1,0,0); // move in normalised velocities (0 to 1): x, y, yaw. Expressed in robot frame
     
     motion.rest(); // tells the robot to rest to prevent robot overheating
 
