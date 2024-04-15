@@ -83,7 +83,7 @@ private:
     Eigen::Vector<double, 6> X_;
     Eigen::Matrix<double, 6, 6> P_;
     Eigen::Matrix<double, 3, 3> Q_;
-    Eigen::Vector<double, 6> U_;
+    Eigen::Vector<double, 3> U_;
 
     void robotVelCallBack(const geometry_msgs::TwistStampedConstPtr& msg){
         U_(0) = msg->twist.linear.x;
