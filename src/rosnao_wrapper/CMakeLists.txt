@@ -15,10 +15,10 @@ qi_create_bin(image_pub "src/image_publisher.cpp"
     DEPENDS ALCOMMON ALPROXIES ALVISION BOOST)
 qi_create_bin(motion_proxy "src/motion_proxy.cpp" 
     DEPENDS ALCOMMON ALPROXIES BOOST)
-qi_create_bin(imu_proxy "src/imu_publisher.cpp" 
+qi_create_bin(vel_imu_proxy "src/vel_imu_publisher.cpp" 
     DEPENDS ALCOMMON ALPROXIES BOOST)
-qi_create_bin(imu_print_proxy "src/imu_print.cpp" 
-    DEPENDS ALCOMMON ALPROXIES BOOST)
+# qi_create_bin(imu_print_proxy "src/imu_print.cpp" 
+#     DEPENDS ALCOMMON ALPROXIES BOOST)
 qi_create_bin(position_print_proxy "src/position_print.cpp" 
     DEPENDS ALCOMMON ALPROXIES BOOST)
 qi_create_bin(pose_integrator_proxy "src/pose_integrator.cpp" 

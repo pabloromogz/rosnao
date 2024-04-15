@@ -1,6 +1,7 @@
-#include "rosnao_wrapper/IMU_publisher.hpp"
+#include <iostream>
+#include "rosnao_wrapper/common.hpp"
 #include <alproxies/almotionproxy.h>
-#include <alproxies/alrobotpostureproxy.h>
+#include <alproxies/almemoryproxy.h>
 #include <chrono>  // For std::chrono
 #include <thread>  // For std::this_thread::sleep_for
 

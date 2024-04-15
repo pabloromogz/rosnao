@@ -1,4 +1,4 @@
-#include "rosnao_wrapper/IMU_publisher.hpp"
+#include "rosnao_wrapper/vel_imu_publisher.hpp"
 #include <alproxies/almotionproxy.h>
 #include <alproxies/alrobotpostureproxy.h>
 #include <chrono>  // For std::chrono
