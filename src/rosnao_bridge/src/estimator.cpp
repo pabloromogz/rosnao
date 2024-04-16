@@ -7,9 +7,7 @@ int main(int argc, char** argv) {
 
     while (ros::ok()) {
         ekf.predict(1.0/loop_rate.expectedCycleTime().toSec());  // Prediction step
-
         ros::spinOnce();
-
         loop_rate.sleep();
     }
 
