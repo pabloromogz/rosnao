@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
     ros::Rate loop_rate(10);  // State prediction at 10 Hz
 
     while (ros::ok()) {
-        ekf.predict(1.0/loop_rate.expectedCycleTime().toSec());  // Prediction step
+        ekf.predict(loop_rate.expectedCycleTime().toSec());  // Prediction step
         ros::spinOnce();
         loop_rate.sleep();
     }

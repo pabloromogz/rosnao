@@ -3,6 +3,7 @@
 #include <geometry_msgs/TwistStamped.h>
 #include <sensor_msgs/Imu.h>
 #include <Eigen/Dense>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 class EstimatorEKF {
 public:
@@ -11,9 +12,9 @@ public:
         U_.setZero();
         P_.setIdentity();
         P_ *= 1e3;
-        Q_ << 5, 0, 0, // SET VALUES
-              0, 5,0,
-              0, 0, 5;
+        Q_ << 0.0001, 0, 0, // SET VALUES
+              0, 0.0001,0,
+              0, 0, 0.01;
 
         sub_robot_vel_ = nh_.subscribe("/robot_vel", 1, &EstimatorEKF::robotVelCallBack, this);
         sub_imu_ = nh_.subscribe("/imu0", 1, &EstimatorEKF::IMUCallback, this);
@@ -66,13 +67,14 @@ public:
 
     void correctTheta(const sensor_msgs::ImuConstPtr& msg){
         Eigen::RowVector<double, 6> H_imu_ = {0, 0, 1, 0, 0, 0};
-        double R_imu_ = 5.0; //SET value
+        double R_imu_ = 0.0000002; //SET value
 
         Eigen::Vector<double, 6> K_;
         K_ = P_ * H_imu_.transpose() / (H_imu_ * P_ * H_imu_.transpose() + R_imu_);
         
         z_imu_ = msg->orientation.z - imu_offset_ + imu_slam_offset_;
-        X_ += K_ * (z_imu_ - H_imu_ * X_);
+        X_ += K_ * limit_angle(z_imu_ - H_imu_ * X_);
+        X_(2) = limit_angle(X_(2));
         P_ -= K_*H_imu_*P_;
     }
 
@@ -80,17 +82,24 @@ public:
         std::cout << "Pose\t(" << X_(0) << ", " << X_(1) << ", " << X_(2) << " )" << std::endl;
         std::cout << "Twist\t(" << X_(3) << ", " << X_(4) << ", " << X_(5) << " )" << std::endl;
         std::cout << "SLAM\t(" << z_slam_(0) << ", " << z_slam_(1) << ", " << z_slam_(2) << " )" << std::endl;
-        std::cout << "IMU\t(" << "---" << ", " << "---" << ", " << z_imu_ << " )" << std::endl;
+        std::cout << "IMU\t(" << "---" << ", " << "---" << ", " << z_imu_ << " )" << std::endl << std::endl;
     }
 
     void publish(){
         geometry_msgs::PoseStamped filtered_pose;
-        filtered_pose.header.frame_id = "robot";
+        filtered_pose.header.frame_id = "map";
         filtered_pose.header.stamp = ros::Time::now();
         filtered_pose.pose.position.x = X_(0);
         filtered_pose.pose.position.y = X_(1);
-        filtered_pose.pose.orientation.z = X_(2);
+        tf2::Quaternion quaternion_tf2;
+        quaternion_tf2.setRPY(0, 0, X_(2));
+        filtered_pose.pose.orientation = tf2::toMsg(quaternion_tf2);
         pub_filtered_pose_.publish(filtered_pose);
+    }
+
+    double limit_angle(double angle){
+        double result = fmod(angle + M_PI, M_PI*2);
+        return result >= 0? result - M_PI : result + M_PI;
     }
 
 private:
@@ -105,8 +114,8 @@ private:
     Eigen::Matrix<double, 3, 3> Q_;
     Eigen::Vector<double, 3> U_;
 
-    double z_imu_, imu_offset_=0, imu_slam_offset_=0;
-    Eigen::Vector3d z_slam_;
+    double z_imu_= NAN, imu_offset_=0, imu_slam_offset_=0;
+    Eigen::Vector3d z_slam_ = {NAN, NAN, NAN};
 
     void robotVelCallBack(const geometry_msgs::TwistStampedConstPtr& msg){
         U_(0) = msg->twist.linear.x;

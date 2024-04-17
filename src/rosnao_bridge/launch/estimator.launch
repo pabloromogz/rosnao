@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Launch node on ros end to publish image from shared memory -in shared memory -->
+    <node pkg="rosnao_bridge" type="estimator" name="estimator" output="screen" required="true"/>
+</launch>
