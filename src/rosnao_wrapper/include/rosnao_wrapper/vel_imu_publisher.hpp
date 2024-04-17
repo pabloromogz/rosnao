@@ -31,11 +31,11 @@ namespace rosnao{
             shm_vel_imu->ang_vel_z = ang_vel_z;
             shm_vel_imu->imu_ang_z = imu_ang_z;
 
-            std::cout << "VELOCITIES AND IMU PUBLISHING INTO SHARED MEMORY" << std::endl;
-            std::cout << "SEQUENCE NUMBER: " << shm_vel_imu->seq << std::endl;
-            std::cout << "LINEAR VELOCITY:\tx: " << shm_vel_imu->lin_vel_x << "\ty: " << shm_vel_imu->lin_vel_y << std::endl;
-            std::cout << "ANGULAR VELOCITY:\ttheta: " << shm_vel_imu->ang_vel_z << std::endl;
-            std::cout << "IMU ANGLE:\tx: " << shm_vel_imu->imu_ang_z << std::endl << std::endl;
+            // std::cout << "VELOCITIES AND IMU PUBLISHING INTO SHARED MEMORY" << std::endl;
+            // std::cout << "SEQUENCE NUMBER: " << shm_vel_imu->seq << std::endl;
+            // std::cout << "LINEAR VELOCITY:\tx: " << shm_vel_imu->lin_vel_x << "\ty: " << shm_vel_imu->lin_vel_y << std::endl;
+            // std::cout << "ANGULAR VELOCITY:\ttheta: " << shm_vel_imu->ang_vel_z << std::endl;
+            // std::cout << "IMU ANGLE:\tx: " << shm_vel_imu->imu_ang_z << std::endl << std::endl;
         }
 
     public:

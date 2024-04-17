@@ -60,7 +60,7 @@ namespace rosnao{
         std::pair<sensor_msgs::ImuConstPtr, bool> getIMUMessage(){
             boost::interprocess::scoped_lock<boost::interprocess::interprocess_mutex> lock(shm_vel_imu->mutex);
             if (shm_vel_imu->seq == seq){
-                std::cout << "Vaya por dios:" << shm_vel_imu->seq << std::endl;
+                // std::cout << "Vaya por dios:" << shm_vel_imu->seq << std::endl;
                 return std::make_pair(imu_msg, false);
             }
             auto &header = imu_msg->header;
@@ -75,7 +75,7 @@ namespace rosnao{
         std::pair<geometry_msgs::TwistStampedConstPtr, bool> getVelMessage(){
             boost::interprocess::scoped_lock<boost::interprocess::interprocess_mutex> lock(shm_vel_imu->mutex);
             if (shm_vel_imu->seq == seq){
-                std::cout << "Vaya por dios:" << shm_vel_imu->seq << std::endl;
+                // std::cout << "Vaya por dios:" << shm_vel_imu->seq << std::endl;
                 return std::make_pair(vel_msg, false);
             }
             auto &header = vel_msg->header;

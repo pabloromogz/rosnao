@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="nao_ip" default="192.168.26.156"/>
+    <arg name="shm_id" default="vel_imu"/>
+    <arg name="vel_topic" default="robot_vel" />
+    <arg name="imu_topic" default="imu0" />
+    <!-- <arg name="frame" default="imu_link" /> -->
+    <arg name="frame" default="world" />
+
+
+    <!-- Launch node on ros end to publish image from shared memory -in shared memory -->
+    <node pkg="rosnao_bridge" type="vel_imu_relay" name="vel_imu_relay" output="screen" args="$(arg shm_id) $(arg vel_topic) $(arg imu_topic) $(arg frame)" required="true"/>
+    <!-- Interface with sdk, launches proxy in nao, and pubilsh the imu data into topic -->
+    <node pkg="rosnao_bridge" type="vel_imu_relay.sh" name="vel_imu_relay_sdk" output="screen" args="$(arg nao_ip) $(arg shm_id)" required="true"/>
+</launch>
