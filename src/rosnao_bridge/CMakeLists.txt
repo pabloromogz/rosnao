@@ -61,6 +61,14 @@ add_executable(estimator src/estimator.cpp)
 target_include_directories(estimator PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
 target_link_libraries(estimator ${ROSNAO_BRIDGE_LIBRARIES})
 
+add_executable(controller src/controller.cpp)
+target_include_directories(controller PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(controller ${ROSNAO_BRIDGE_LIBRARIES})
+
+add_executable(control_motion src/control_motion.cpp)
+target_include_directories(control_motion PUBLIC ${ROSNAO_BRIDGE_INCLUDE_DIRS})
+target_link_libraries(control_motion ${ROSNAO_BRIDGE_LIBRARIES})
+
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.hpp"

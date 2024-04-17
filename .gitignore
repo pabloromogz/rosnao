@@ -7,3 +7,4 @@ src/CMakeLists.txt
 .vscode
 src/.vscode
 src/orb_slam3_ros_wrapper/config/ORBvoc.txt
+final_lab.bag

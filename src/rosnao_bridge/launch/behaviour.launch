@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Launch node on ros end to publish image from shared memory -in shared memory -->
+    <node pkg="rosnao_bridge" type="estimator" name="estimator" output="screen" required="true"/>
+    <node pkg="rosnao_bridge" type="controller" name="controller" output="screen" required="true"/>
+
+    <arg name="nao_ip" default="192.168.26.156"/>
+    <arg name="shm_id" default="motion"/>
+    
+    <node pkg="rosnao_bridge" type="control_motion" name="control_motion" output="screen" args="$(arg shm_id)" required="true"/>
+    <!-- Interface with sdk, launches proxy in nao, and put the image in shared memory -->
+    <node pkg="rosnao_bridge" type="motion_relay.sh" name="motion_sdk" output="screen" args="$(arg nao_ip) $(arg shm_id)" required="true"/> <!-- "required" forces roslaunch to termiante-->
+</launch>

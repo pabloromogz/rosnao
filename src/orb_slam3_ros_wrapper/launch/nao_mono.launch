@@ -13,8 +13,10 @@
         <param name="enable_pangolin"   type="bool"     value="true" />
         
         <!-- World frame orientation -->
-        <!-- <param name="world_roll"        type="double"   value="2.0" /> -->
-        <param name="world_roll"        type="double"   value="1.57079632679" />
+        <!-- <param name="world_roll"        type="double"   value="1.81514232679" /> -->
+        <!-- <param name="world_roll"        type="double"   value="1.57079632679" /> -->
+        <param name="world_roll"        type="double"   value="1.45" />
+        <!-- <param name="world_roll"        type="double"   value="1.32645032679" /> -->
         <param name="world_pitch"       type="double"   value="0.0" />
         <param name="world_yaw"         type="double"   value="1.57079632679" />
     </node>
@@ -22,9 +24,9 @@
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
         <remap from="cloud_in" to="orb_slam3/map_points"/>
         <param name="frame_id" type="string" value="world"/>
-        <param name="pointcloud_min_z" value="-3"/>
-        <param name="pointcloud_max_z" value="3"/>
-        <param name="sensor_model/max_range" value="7"/>
+        <param name="pointcloud_min_z" value="-2"/>
+        <param name="pointcloud_max_z" value="2"/>
+        <param name="sensor_model/max_range" value="6"/>
         <param name="resolution" value="0.02"/>
     </node>
 

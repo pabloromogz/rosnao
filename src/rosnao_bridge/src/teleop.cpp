@@ -38,7 +38,7 @@ int main(int argc, char **argv)
     // Set terminal to raw mode
     std::system("stty raw");
 
-    motion.setAngle(rosnao::HeadPitch, 0.174533, 0.1, true);
+    // motion.setAngle(rosnao::HeadPitch, 0.174533, 0.1, true);
 
     while (ros::ok())
     {
