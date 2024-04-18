@@ -150,6 +150,7 @@ Visualization Manager:
       Color: 255; 0; 0  # Red color for the path
       Shape: Arrow  # Adjust line width as needed
       Queue Size: 10
+      Keep: 1
     - Class: rviz/Pose
       Enabled: true
       Alpha: 1
@@ -157,6 +158,12 @@ Visualization Manager:
       Topic: /move_base_simple/goal
       Color: 0; 255; 0
       Shape: Arrow
+    - Class: rviz/PointStamped
+      Enabled: true
+      Alpha: 1
+      Name: Goal Waypoint
+      Topic: /clicked_point
+      Color: 0; 255; 255
   Enabled: true
   Global Options:
     Background Color: 46; 52; 54

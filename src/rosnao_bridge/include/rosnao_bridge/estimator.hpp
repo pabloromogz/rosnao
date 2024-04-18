@@ -20,7 +20,7 @@ public:
         sub_robot_vel_ = nh_.subscribe("/robot_vel", 1, &EstimatorEKF::robotVelCallBack, this);
         sub_imu_ = nh_.subscribe("/imu0", 1, &EstimatorEKF::IMUCallback, this);
         sub_slam_pose_ = nh_.subscribe("/orb_slam3/camera_pose", 1, &EstimatorEKF::slamPoseCallback, this);
-        pub_filtered_pose_ = nh_.advertise<nav_msgs::Odometry>("/odom", 1);
+        pub_filtered_odom_ = nh_.advertise<nav_msgs::Odometry>("/odom", 1);
     }
 
     void predict (const double& elapsed){
@@ -53,20 +53,24 @@ public:
         H_slam_ << 1, 0, 0, 0, 0, 0,
                    0, 1, 0, 0, 0, 0;
         Eigen::Matrix2d R_slam_;
-        R_slam_ << 0.5, 0,
-                   0, 0.5;
+        R_slam_ << 1.0, 0,
+                   0, 1.0;
 
         Eigen::Matrix<double, 6, 2> K_;
         K_ = P_ * H_slam_.transpose() * (H_slam_ * P_ * H_slam_.transpose() + R_slam_).inverse();
 
-        z_slam_ = {msg->pose.position.x, msg->pose.position.y};
-        X_ += K_ * (z_slam_ - H_slam_ * X_);
-        P_ -= K_ * H_slam_ * P_;
+        z_slam_ = {msg->pose.position.x, msg->pose.position.y-offset_y_};
+        z_slam_ *= slam_scale_factor_;
+        if ((z_slam_ - H_slam_ * X_).norm() < 0.5){
+            X_ += K_ * (z_slam_ - H_slam_ * X_);
+            P_ -= K_ * H_slam_ * P_;
+        }
+        else std::cout << "SLAM estimate too far: IGNORING" << std::endl;
     }
 
     void correctTheta(const sensor_msgs::ImuConstPtr& msg){
         Eigen::RowVector<double, 6> H_imu_ = {0, 0, 1, 0, 0, 0};
-        double R_imu_ = 0.0000002; //SET value
+        double R_imu_ = 0.00002; //SET value
 
         Eigen::Vector<double, 6> K_;
         K_ = P_ * H_imu_.transpose() / (H_imu_ * P_ * H_imu_.transpose() + R_imu_);
@@ -101,7 +105,7 @@ public:
         filtered_twist.twist.angular.z = X_(5);
         odom.pose = filtered_pose;
         odom.twist = filtered_twist;
-        pub_filtered_pose_.publish(odom);
+        pub_filtered_odom_.publish(odom);
     }
 
     double limit_angle(double angle){
@@ -114,7 +118,7 @@ private:
     ros::Subscriber sub_robot_vel_;
     ros::Subscriber sub_imu_;
     ros::Subscriber sub_slam_pose_;
-    ros::Publisher pub_filtered_pose_;
+    ros::Publisher pub_filtered_odom_;
 
     Eigen::Vector<double, 6> X_;
     Eigen::Matrix<double, 6, 6> P_;
@@ -123,6 +127,7 @@ private:
 
     double z_imu_= NAN, imu_offset_=0, imu_slam_offset_=0;
     Eigen::Vector2d z_slam_ = {NAN, NAN};
+    double slam_scale_factor_, offset_y_;
 
     void robotVelCallBack(const geometry_msgs::TwistStampedConstPtr& msg){
         U_(0) = msg->twist.linear.x;
@@ -147,11 +152,17 @@ private:
 
         static bool init_pose = false;
         if (!init_pose){
-            X_(0) = msg->pose.position.x;
-            X_(1) = msg->pose.position.y;
+            double slam_x = msg->pose.position.x;
+            offset_y_ = msg->pose.position.y;
+            slam_scale_factor_ = -1.52 / slam_x;
+
+            X_(0) = -1.52;
+            X_(1) = 0;
             // X_(2) = msg->pose.orientation.z;
             // imu_slam_offset_ = msg->pose.orientation.z;
-            std::cout << "INITIALISING EKF POSE TO SLAM ESTIMATE!" << std::endl;
+            std::cout << "COMPUTING SCALE FACTOR FOR SLAM ESTIMATE!" << std::endl;
+            std::cout << "SLAM estimated x: " << slam_x << "\t true x: -1.52" << std::endl;
+            std::cout << "Factor: " << slam_scale_factor_ << "\tOffset y: " << offset_y_ << std::endl;
             init_pose = true;
             return;
         }

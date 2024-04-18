@@ -14,8 +14,8 @@
         
         <!-- World frame orientation -->
         <!-- <param name="world_roll"        type="double"   value="1.81514232679" /> -->
-        <!-- <param name="world_roll"        type="double"   value="1.57079632679" /> -->
-        <param name="world_roll"        type="double"   value="1.45" />
+        <param name="world_roll"        type="double"   value="1.57079632679" />
+        <!-- <param name="world_roll"        type="double"   value="1.45" /> -->
         <!-- <param name="world_roll"        type="double"   value="1.32645032679" /> -->
         <param name="world_pitch"       type="double"   value="0.0" />
         <param name="world_yaw"         type="double"   value="1.57079632679" />
